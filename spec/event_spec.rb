@@ -124,11 +124,37 @@ RSpec.describe Event do
     #=> #<Item:0x007f9c561636c8...>
     let(:event) { Event.new("South Pearl Street Farmers Market") }
     #=> #<Event:0x00007fe134933e20...>
+    let(:food_truck1) { FoodTruck.new("Rocky Mountain Pies") }
+    #=> #<FoodTruck:0x00007fe1348a1160...>
+    let(:food_truck2) { FoodTruck.new("Ba-Nom-a-Nom") }
+    #=> #<FoodTruck:0x00007fe1349bed40...>
+    let(:food_truck3) { FoodTruck.new("Palisade Peach Shack") }
+    #=> #<FoodTruck:0x00007fe134910650...>
+    before :each do
+      food_truck1.stock(item1, 35)
+      food_truck1.stock(item2, 7)
+      food_truck2.stock(item4, 50)
+      food_truck2.stock(item3, 25)
+      food_truck3.stock(item1, 65)
+      event.add_food_truck(food_truck1)
+      event.add_food_truck(food_truck2)
+      event.add_food_truck(food_truck3)
+    end
 
     it "is created with a date" do
       allow(Date).to receive(:today).and_return(Date.parse("24-02-2020"))
 
       expect(event.date).to eq("24/02/2020")
+    end
+
+    it "can sell items and reduce stock" do
+      expect(event.sell(item1, 200)).to eq false
+      expect(event.sell(item5, 1)).to eq false
+      expect(event.sell(item4, 5)).to eq true
+      expect(food_truck2.check_stock(item4)).to eq(45)
+      expect(event.sell(item1, 40)).to eq true
+      expect(food_truck1.check_stock(item1)).to eq(0)
+      expect(food_truck3.check_stock(item1)).to eq(60)
     end
   end
 end
