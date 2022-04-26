@@ -1,3 +1,4 @@
+require "date"
 require "./lib/item"
 require "./lib/food_truck"
 require "./lib/event"
@@ -107,6 +108,27 @@ RSpec.describe Event do
         }
       }
       expect(event.total_inventory).to eq(expect)
+    end
+  end
+
+  describe "iteration 4" do
+    let(:item1) { Item.new({name: "Peach Pie (Slice)", price: "$3.75"}) }
+    #=> #<Item:0x007f9c56740d48...>
+    let(:item2) { Item.new({name: "Apple Pie (Slice)", price: "$2.50"}) }
+    #=> #<Item:0x007f9c565c0ce8...>
+    let(:item3) { Item.new({name: "Peach-Raspberry Nice Cream", price: "$5.30"}) }
+    #=> #<Item:0x007f9c562a5f18...>
+    let(:item4) { Item.new({name: "Banana Nice Cream", price: "$4.25"}) }
+    #=> #<Item:0x007f9c56343038...>
+    let(:item5) { Item.new({name: "Onion Pie", price: "$25.00"}) }
+    #=> #<Item:0x007f9c561636c8...>
+    let(:event) { Event.new("South Pearl Street Farmers Market") }
+    #=> #<Event:0x00007fe134933e20...>
+
+    it "is created with a date" do
+      allow(Date).to receive(:today).and_return(Date.parse("24-02-2020"))
+
+      expect(event.date).to eq("24/02/2020")
     end
   end
 end
