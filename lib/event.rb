@@ -21,15 +21,18 @@ class Event
     end
   end
 
+  def item_array_helper
+    # returns full list of all items, including duplicates
+    @food_trucks.map { |food_truck| food_truck.inventory.keys }.flatten
+  end
+
   def sorted_item_list
-    item_arr = @food_trucks.map { |food_truck| food_truck.inventory.keys }.flatten.uniq
-    item_arr.sort_by { |item| item.name }
+    item_array_helper.uniq.sort_by { |item| item.name }
   end
 
   def overstocked_items
-    items = @food_trucks.map { |food_truck| food_truck.inventory.keys }.flatten
-    dupes = items.find_all do |item|
-      item if items.count(item) > 1
+    dupes = item_array_helper.find_all do |item|
+      item if item_array_helper.count(item) > 1
     end.uniq
     duplicate_quantities = Hash.new(0)
     dupes.each do |item|
@@ -43,5 +46,19 @@ class Event
       overstocked << item if total > 50
     end
     overstocked
+  end
+
+  def total_inventory
+    total = Hash.new(0)
+    item_array_helper.uniq.each do |item|
+      total[item] = {quantity: 0, food_trucks: []}
+    end
+    @food_trucks.each do |food_truck|
+      food_truck.inventory.each do |item, qty|
+        total[item][:quantity] += qty
+        total[item][:food_trucks] << food_truck
+      end
+    end
+    total
   end
 end
