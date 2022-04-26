@@ -39,7 +39,9 @@ RSpec.describe Event do
       event.add_food_truck(food_truck2)
       event.add_food_truck(food_truck3)
 
-      expect(event.food_truck_names).to eq(["Rocky Mountain Pies", "Ba-Nom-a-Nom", "Palisade Peach Shack"])
+      expect(event.food_truck_names).to eq(["Rocky Mountain Pies",
+        "Ba-Nom-a-Nom",
+        "Palisade Peach Shack"])
     end
 
     it "can list food trucks that sell a given item" do
@@ -79,6 +81,10 @@ RSpec.describe Event do
 
     it "can return all available items in a sorted list" do
       expect(event.sorted_item_list).to eq([item2, item4, item1, item3])
+    end
+
+    it "can display a list of overstocked items" do
+      expect(event.overstocked_items).to eq([item1])
     end
   end
 end
