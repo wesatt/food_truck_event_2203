@@ -63,4 +63,13 @@ class Event
     end
     total
   end
+
+  def sell(item, qty)
+    if (total_inventory[item] != 0) && (total_inventory[item][:quantity] >= qty)
+      # do some stuff here
+      true
+    else
+      false
+    end
+  end
 end

@@ -141,13 +141,13 @@ RSpec.describe Event do
       event.add_food_truck(food_truck3)
     end
 
-    it "is created with a date" do
+    xit "is created with a date" do
       allow(Date).to receive(:today).and_return(Date.parse("24-02-2020"))
 
       expect(event.date).to eq("24/02/2020")
     end
 
-    it "can sell items and reduce stock" do
+    xit "can sell items and reduce stock" do
       expect(event.sell(item1, 200)).to eq false
       expect(event.sell(item5, 1)).to eq false
       expect(event.sell(item4, 5)).to eq true
