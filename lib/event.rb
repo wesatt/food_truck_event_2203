@@ -20,4 +20,9 @@ class Event
       food_truck.inventory.include?(item)
     end
   end
+
+  def sorted_item_list
+    item_arr = @food_trucks.map { |food_truck| food_truck.inventory.keys }.flatten.uniq
+    item_arr.sort_by { |item| item.name }
+  end
 end
